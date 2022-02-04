@@ -25,6 +25,23 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#quizBlock').style.display = 'block';
     start.style.display = 'none';
   });
+  const reset = document.querySelector('#btnReset');
+  btnReset.addEventListener('click', function (e) {
+    
+    window.location.reload();
+    
+   
+
+
+  });
+  const submit = document.querySelector('#btnSubmit');
+  submit.addEventListener('click', function (e) {
+    calculateScore()
+    
+   
+
+
+  });
   // quizArray QUESTIONS & ANSWERS
   // q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
   // Basic ideas from https://code-boxx.com/simple-javascript-quiz/
@@ -44,13 +61,26 @@ window.addEventListener('DOMContentLoaded', () => {
       o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
       a: 1,
     },
+    {
+      q: 'Earth is protected from ultra violet radioation by',
+      o: ['Ozone', 'Oxygen', 'Superman', 'Carbon Dioxide'],
+      a: 0,
+    },
+    {
+      q: 'VAT was first introduced in which country?',
+      o: ['India', 'France', 'USA', 'Australia'],
+      a: 1,
+    },
   ];
 
+
+  
   // function to Display the quiz questions and answers from the object
   const displayQuiz = () => {
     const quizWrap = document.querySelector('#quizWrap');
     let quizDisplay = '';
     quizArray.map((quizItem, index) => {
+      console.log("index is "+index)
       quizDisplay += `<ul class="list-group">
                    Q - ${quizItem.q}
                     <li class="list-group-item mt-2" id="li_${index}_0"><input type="radio" name="radio${index}" id="radio_${index}_0"> ${quizItem.o[0]}</li>
@@ -60,31 +90,75 @@ window.addEventListener('DOMContentLoaded', () => {
                     </ul>
                     <div>&nbsp;</div>`;
       quizWrap.innerHTML = quizDisplay;
+     
+
+
     });
   };
 
   // Calculate the score
   const calculateScore = () => {
+   
+    console.log("calling score function")
     let score = 0;
     quizArray.map((quizItem, index) => {
       for (let i = 0; i < 4; i++) {
+        
         //highlight the li if it is the correct answer
         let li = `li_${index}_${i}`;
         let r = `radio_${index}_${i}`;
+       
         liElement = document.querySelector('#' + li);
         radioElement = document.querySelector('#' + r);
 
         if (quizItem.a == i) {
+          
           //change background color of li element here
+          score++;
+       const finalscore=document.getElementById("score")
+          //liElement[i].innerHTML = `correct answer`;
+          finalscore.innerHTML =`Your score is : ${score}`
+          liElement.innerHTML ='correct answer'
+
         }
 
         if (radioElement.checked) {
+
           // code for task 1 goes here
+          console.log("radio element")
+          radioElement.innerHTML='wrong answer'
+        
         }
       }
     });
   };
-
+  
   // call the displayQuiz function
   displayQuiz();
+
 });
+
+// document.getElementById("btnSubmit").addEventListener("click",{
+//   calculateScore()
+
+// });
+
+var sec = 60;
+var time = setInterval(myTimer, 1000);
+
+function myTimer() {
+    document.getElementById('time').innerHTML = sec + "sec left";
+    sec--;
+    if (sec == -1) {
+        clearInterval(time);
+        alert("Sorry Time Up!");
+        quizWrap.innerHTML = `Your score is ${score}`;
+    }
+}
+
+
+
+
+
+
+
