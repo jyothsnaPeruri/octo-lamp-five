@@ -22,23 +22,25 @@
 window.addEventListener('DOMContentLoaded', () => {
   const start = document.querySelector('#start');
   start.addEventListener('click', function (e) {
+
     document.querySelector('#quizBlock').style.display = 'block';
     start.style.display = 'none';
+
   });
   const reset = document.querySelector('#btnReset');
   btnReset.addEventListener('click', function (e) {
-    
+
     window.location.reload();
-    
-   
+
+
 
 
   });
   const submit = document.querySelector('#btnSubmit');
   submit.addEventListener('click', function (e) {
     calculateScore()
-    
-   
+
+
 
 
   });
@@ -74,13 +76,13 @@ window.addEventListener('DOMContentLoaded', () => {
   ];
 
 
-  
+
   // function to Display the quiz questions and answers from the object
   const displayQuiz = () => {
     const quizWrap = document.querySelector('#quizWrap');
     let quizDisplay = '';
     quizArray.map((quizItem, index) => {
-      console.log("index is "+index)
+      console.log("index is " + index)
       quizDisplay += `<ul class="list-group">
                    Q - ${quizItem.q}
                     <li class="list-group-item mt-2" id="li_${index}_0"><input type="radio" name="radio${index}" id="radio_${index}_0"> ${quizItem.o[0]}</li>
@@ -90,7 +92,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     </ul>
                     <div>&nbsp;</div>`;
       quizWrap.innerHTML = quizDisplay;
-     
+
 
 
     });
@@ -98,41 +100,54 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Calculate the score
   const calculateScore = () => {
-   
-    console.log("calling score function")
     let score = 0;
+    console.log("calling score function")
+
+
     quizArray.map((quizItem, index) => {
       for (let i = 0; i < 4; i++) {
-        
+
         //highlight the li if it is the correct answer
         let li = `li_${index}_${i}`;
         let r = `radio_${index}_${i}`;
-       
+
+
         liElement = document.querySelector('#' + li);
         radioElement = document.querySelector('#' + r);
 
-        if (quizItem.a == i) {
-          
-          //change background color of li element here
-          score++;
-       const finalscore=document.getElementById("score")
-          //liElement[i].innerHTML = `correct answer`;
-          finalscore.innerHTML =`Your score is : ${score}`
-          liElement.innerHTML ='correct answer'
+        console.log("li is " + li + "radio is " + r)
 
-        }
+
+
+
+
 
         if (radioElement.checked) {
 
-          // code for task 1 goes here
-          console.log("radio element")
-          radioElement.innerHTML='wrong answer'
-        
+          if (quizItem.a == i) {
+            // code for task 1 goes here
+            score++;
+            console.log("score is " + score)
+            const finalscore = document.getElementById("score")
+            liElement.innerHTML = "<span style='color: green;'>Correct Answer</span>"
+            //radioElement.innerHTML='correct answer'
+            document.getElementById("score").innerHTML
+              = "score is : " + score;
+
+
+          }
+          if (quizItem.a !== i) {
+            liElement.innerHTML = "<span style='color: red;'>Wrong Answer</span>"
+
+          }
+
         }
+
       }
     });
+
   };
-  
+
   // call the displayQuiz function
   displayQuiz();
 
@@ -147,14 +162,20 @@ var sec = 60;
 var time = setInterval(myTimer, 1000);
 
 function myTimer() {
-    document.getElementById('time').innerHTML = sec + "sec left";
-    sec--;
-    if (sec == -1) {
-        clearInterval(time);
-        alert("Sorry Time Up!");
-        quizWrap.innerHTML = `Your score is ${score}`;
-    }
+  document.getElementById('time').innerHTML = sec + "sec left";
+  sec--;
+
+  if (sec == -1) {
+
+    clearInterval(time);
+    alert("Sorry Time Up!");
+
+
+
+  }
+
 }
+
 
 
 
